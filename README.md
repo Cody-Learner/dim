@@ -1,5 +1,5 @@
-# dim										<br>
-										<br>										<br>
+# dim<br>
+
 Wrapper script for ddcutil to control monitor brightness on desktop system. 	<br>
 										<br>
 Depends: ddcutil								<br>
