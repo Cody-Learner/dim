@@ -1,6 +1,6 @@
 # dim<br>
 
-Wrapper script for ddcutil to control monitor brightness on desktop system. 	<br>
+ddcutil wrapper script to control Acer monitor brightness on desktops.		<br>
 										<br>
 Depends: ddcutil								<br>
 										<br>

@@ -1,5 +1,5 @@
 #!/bin/bash
-# Monitor brightness setting script: dim-12/08/2020
+# Monitor brightness setting script: dim-12/19/2020
 # Program used       : ddcutil
 # Kernel modules used: i2c-dev
 # Setup: http://www.ddcutil.com/i2c_permissions/
@@ -29,7 +29,7 @@ echo "  Script path: $(which dim)
   -7  M/B	Monitor
   -9  Bright	Monitor
 
-$(cat ~/.cache/dim)
+$(cat ~/.cache/dim 2>/dev/null)
 "
 #                                            Property:      Bright:  Contrast:	Blue:
 

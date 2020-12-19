@@ -1,47 +1,181 @@
-NOTES:
+NOTES: 2020-12-19
 
-Program: ddcutil
+Dim setup instructions for Acer monitors.
 
-Source:	http://www.ddcutil.com/i2c_permissions/
+Program used   : ddcutil
+Setup source   : http://www.ddcutil.com/i2c_permissions/
+Additional info: $ manl ddcutil
 
-For more info, See: $ manl ddcutil
+=======================================================================
+MB MONITOR AND CAPACITY:
 
-Load kernel modules:
-$ sudo modprobe i2c-dev
+$ ddcutil  detect
+Display 1
+   I2C bus:             /dev/i2c-2
+   EDID synopsis:
+      Mfg id:           ACR
+      Model:            Acer H276HL
+      Serial number:    LZHAA0014200
+      Manufacture year: 2014
+      EDID version:     1.3
+   VCP version:         2.1
+
+$ ddcutil capabilities
+Model: ACER
+MCCS version: 2.0
+Commands:
+   Command: 01 (VCP Request)
+   Command: 02 (VCP Response)
+   Command: 03 (VCP Set)
+   Command: 07 (Timing Request)
+   Command: 0c (Save Settings)
+   Command: e3 (Capabilities Reply)
+   Command: f3 (Capabilities Request)
+VCP Features:
+   Feature: 02 (New control value)
+   Feature: 04 (Restore factory defaults)
+   Feature: 05 (Restore factory brightness/contrast defaults)
+   Feature: 08 (Restore color defaults)
+   Feature: 0B (Color temperature increment)
+   Feature: 10 (Brightness)
+   Feature: 12 (Contrast)
+   Feature: 14 (Select color preset)
+      Values:
+         05: 6500 K
+         08: 9300 K
+         0b: User 1
+   Feature: 16 (Video gain: Red)
+   Feature: 18 (Video gain: Green)
+   Feature: 1A (Video gain: Blue)
+   Feature: 52 (Active control)
+   Feature: 60 (Input Source)
+      Values:
+         01: VGA-1
+         03: DVI-1
+         04: DVI-2
+   Feature: 62 (Audio speaker volume)
+   Feature: AC (Horizontal frequency)
+   Feature: AE (Vertical frequency)
+   Feature: B2 (Flat panel sub-pixel layout)
+   Feature: B6 (Display technology type)
+   Feature: C6 (Application enable key)
+   Feature: C8 (Display controller type)
+   Feature: C9 (Display firmware level)
+   Feature: DF (VCP Version)
+
+=======================================================================
+TB  MONITOR AND CAPACITY:
+
+$ ddcutil  detect
+Display 1
+   I2C bus:             /dev/i2c-4
+   EDID synopsis:
+      Mfg id:           ACR
+      Model:            Acer H236HL
+      Serial number:    LX1AA0034210
+      Manufacture year: 2015
+      EDID version:     1.3
+   VCP version:         2.1
+
+$ ddcutil capabilities
+Model: ACER
+MCCS version: 2.0
+Commands:
+   Command: 01 (VCP Request)
+   Command: 02 (VCP Response)
+   Command: 03 (VCP Set)
+   Command: 07 (Timing Request)
+   Command: 0c (Save Settings)
+   Command: e3 (Capabilities Reply)
+   Command: f3 (Capabilities Request)
+VCP Features:
+   Feature: 02 (New control value)
+   Feature: 04 (Restore factory defaults)
+   Feature: 05 (Restore factory brightness/contrast defaults)
+   Feature: 08 (Restore color defaults)
+   Feature: 0B (Color temperature increment)
+   Feature: 10 (Brightness)
+   Feature: 12 (Contrast)
+   Feature: 14 (Select color preset)
+      Values:
+         05: 6500 K
+         08: 9300 K
+         0b: User 1
+   Feature: 16 (Video gain: Red)
+   Feature: 18 (Video gain: Green)
+   Feature: 1A (Video gain: Blue)
+   Feature: 52 (Active control)
+   Feature: 60 (Input Source)
+      Values:
+         01: VGA-1
+         03: DVI-1
+         04: DVI-2
+   Feature: 62 (Audio speaker volume)
+   Feature: AC (Horizontal frequency)
+   Feature: AE (Vertical frequency)
+   Feature: B2 (Flat panel sub-pixel layout)
+   Feature: B6 (Display technology type)
+   Feature: C6 (Application enable key)
+   Feature: C8 (Display controller type)
+   Feature: C9 (Display firmware level)
+   Feature: DF (VCP Version)
 
 
-Check that the modules loaded. There may be less of them before using dim?
-$ ls -l /dev/i2c-*
-crw------- 1 root root 89, 0 Dec 13 20:08 /dev/i2c-0
-crw------- 1 root root 89, 1 Dec 13 20:08 /dev/i2c-1
-crw------- 1 root root 89, 2 Dec 13 20:30 /dev/i2c-2
-crw------- 1 root root 89, 3 Dec 13 20:30 /dev/i2c-3
-crw------- 1 root root 89, 4 Dec 13 20:30 /dev/i2c-4
 
+=======================================================================
+SETUP:
+
+To load kernel modules:			$ sudo modprobe i2c-dev
+Check:					$ ls -l /dev/i2c-*
+					  crw------- 1 root root 89, 0 Dec 13 20:08 /dev/i2c-0
+					  crw------- 1 root root 89, 1 Dec 13 20:08 /dev/i2c-1
+					  crw------- 1 root root 89, 2 Dec 13 20:30 /dev/i2c-2
+					  crw------- 1 root root 89, 3 Dec 13 20:30 /dev/i2c-3
+					  crw------- 1 root root 89, 4 Dec 13 20:30 /dev/i2c-4
 
 Set up kernel module to auto load:
-1) Create file:				$ sudo touch/etc/modules-load.d/i2c-dev.conf
-2) Put this in it:			$ sudo cat "i2c-dev" > /etc/modules-load.d/i2c-dev.conf
+1) Create file:				$ sudo touch /etc/modules-load.d/i2c-dev.conf
+2) Put this in it:			$ sudo echo "i2c-dev" > /etc/modules-load.d/i2c-dev.conf
+3) Check:				$ cat /etc/modules-load.d/i2c-dev.conf
+					  i2c-dev
 
 
 Setup udev user permission:
-Copy supplied udev rule to /etc:	$ sudo cp /usr/share/ddcutil/data/45-ddcutils-i2c.rules /etc/udev/rules.d/
-Make sure:				$ cat /etc/udev/rules.d/45-ddcutil-i2c.rules
+1) Copy supplied udev rule to /etc:	$ sudo cp /usr/share/ddcutil/data/45-ddcutil-i2c.rules /etc/udev/rules.d/
+2) Check:				$ cat /etc/udev/rules.d/45-ddcutil-i2c.rules
+					  # On some distributions, package i2c-tools provides a udev rule. 
+					  # For example, on Ubuntu, see 40-i2c-tools.rules. 
+					  # Assigns the i2c devices to group i2c, and gives that group RW access:
+					  KERNEL=="i2c-[0-9]*", GROUP="i2c", MODE="0660"
+					  # Gives everyone RW access to the /dev/i2c devices: 
+					  # KERNEL=="i2c-[0-9]*",  MODE="0666"
+
+Setup i2c group:
+1) Create system group:			$ sudo groupadd --system i2c
+2) Add user to group:			$ sudo gpasswd -a jeff i2c
+
+Reboot for group add & new udev rule.
+1) Check:				$ groups
+					  .... .... .... i2c
+2) Check:				$ ddcutil environment | grep "${USER}"
+					  Current user: jeff (1000)
+					  Current user (jeff) has RW access to all /dev/i2c-* devices.
+					  cur_uname:                     jeff
 
 
-Add a system group:			$ sudo groupadd --system i2c
-Add user to group:			$ sudo gpasswd -a jeff i2c
+Run dim for further instructions:	$ dim
+					  Script path: /home/jeff/bin/dim
+					  Settings   : /home/jeff/.cache/dim
 
-Reboot for group to be added and new udev rule to implement.
+					  Monitor brightness control
+					  Usage: dim [-1 -3 -5 -7 -9]
 
-After reboot or for later check, run command and should see:
- 
- $ ddcutil environment | grep "${USER}"
-   Current user: jeff (1000)
-   Current user (jeff) has RW access to all /dev/i2c-* devices.
-    cur_uname:                     jeff
- 
-Run dim to get further instructions.	$ dim
+					    -1  Dim	Monitor
+					    -3  D/M	Monitor
+					    -5  Mid	Monitor
+					    -7  M/B	Monitor
+					    -9  Bright	Monitor
+
 
 #------------------------------------------------------------------------------------------------
 #						Info:
@@ -60,11 +194,6 @@ Run dim to get further instructions.	$ dim
 #   sudo ddcutil getvcp 1a
 #   VCP code 0x1a (Video gain: Blue              ): current value =     0, max value =   100
 #
-#						SETUP:
-#
-#   Source: http://www.ddcutil.com/i2c_permissions/
-#
-#   Notes & man page: $ manl ddcutil
 #
 #------------------------------------------------------------------------------------------------
 
