@@ -141,8 +141,8 @@ Set up kernel module to auto load:
 
 
 Setup udev user permission:
-1) Copy supplied udev rule to /etc:	$ sudo cp /usr/share/ddcutil/data/45-ddcutil-i2c.rules /etc/udev/rules.d/
-2) Check:				$ cat /etc/udev/rules.d/45-ddcutil-i2c.rules
+1) Copy supplied udev rule to /etc:	$ sudo cp /usr/share/ddcutil/data/60-ddcutil-i2c.rules /etc/udev/rules.d/
+2) Check:				$ cat /etc/udev/rules.d/60-ddcutil-i2c.rules
 					  # On some distributions, package i2c-tools provides a udev rule. 
 					  # For example, on Ubuntu, see 40-i2c-tools.rules. 
 					  # Assigns the i2c devices to group i2c, and gives that group RW access:
